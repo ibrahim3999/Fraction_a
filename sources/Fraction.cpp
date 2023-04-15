@@ -10,20 +10,19 @@ namespace ariel {
             }
             this->denominator=denominator;
             this->numerator=numerator;
-
+            simplify();
         }
-        
+        /*
         Fraction::Fraction(const Fraction& other){
-            
             this->denominator=other.getDenominator();
-            this->numerator=other.getNumerator();  
+            this->numerator=other.getNumerator(); 
+            simplify(); 
         }
+        */
         Fraction::Fraction(){
-            this->denominator=0;
+            this->denominator=1;
             this->numerator=0;
         }
-
-
 
         std::string Fraction::to_string()const{
             std::stringstream ss;
@@ -33,23 +32,32 @@ namespace ariel {
 
         Fraction& Fraction::operator++() {
             numerator += denominator;
+            simplify();
             return *this;
         }
 
         Fraction& Fraction::operator--() {
         numerator -= denominator;
+        simplify();
         return *this;
         }
         Fraction Fraction::operator++(int) {
             Fraction temp(*this);
             numerator += denominator;
+            simplify();
             return temp;
         } 
         
         Fraction Fraction::operator--(int) {
             Fraction temp(*this);
             numerator -= denominator;
+            simplify();
             return temp;
-        }        
+        } 
+        void Fraction::simplify() {
+            int gcd = std::__gcd(numerator, denominator);
+            numerator /= gcd;
+            denominator /= gcd;
+        }       
 }
     

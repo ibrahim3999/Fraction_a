@@ -15,87 +15,119 @@ namespace ariel {
     public:
         // Constructors
         Fraction(int numerator,int denominator);
-        Fraction(const Fraction& other);
+        // Copy constructor
+        //Fraction(const Fraction& other) : numerator(other.numerator), denominator(other.denominator) {}
+        // defult constructor
         Fraction();
+        // Descrotor 
+        ~Fraction(){}
+        // Helper method to simplify the fraction
+        void simplify();
 
+           
         //Arithmetic
 
         friend Fraction operator+(const Fraction & fraction1, const Fraction &fraction2){
-            int N = fraction1.numerator * fraction1.denominator + fraction1.numerator * fraction1.denominator;
-            int D = fraction1.denominator * fraction1.denominator;
-            return Fraction(N,D);
+            int Nnew = fraction1.numerator * fraction2.denominator + fraction2.numerator * fraction1.denominator;
+            int Dnew= fraction2.denominator * fraction1.denominator;
+            Fraction res (Nnew,Dnew);
+           res.simplify();
+            return res;
         }
         // int +
-        friend Fraction operator+(const int& i, const Fraction& f) {
-            int new_numerator = i * f.denominator + f.numerator;
-            return Fraction(new_numerator, f.denominator);
+        friend Fraction operator+(const int& NUM, const Fraction& fraction) {
+            int new_numerator = NUM * fraction.denominator + fraction.numerator;
+            Fraction res (new_numerator, fraction.denominator);
+            res.simplify();
+            return res;
         }
         // float +
-        friend Fraction operator+(const float& f, const Fraction& frac) {
-            int new_numerator = (int)(f * frac.denominator) + frac.numerator;
-            return Fraction(new_numerator, frac.denominator);
+        
+        friend Fraction operator+(const float& NUM, const Fraction& frac) {
+            int new_numerator = static_cast<int>(NUM)* frac.denominator + frac.numerator;
+            Fraction res (new_numerator, frac.denominator);
+            res.simplify();
+            return res;
         }
         //+ float
-        friend Fraction operator+( const Fraction& frac,const float& d) {
-            int new_numerator = (int)(d * frac.denominator) + frac.numerator;
-            return Fraction(new_numerator, frac.denominator);
+        
+        friend Fraction operator+( const Fraction& frac,const float& NUM) {
+            int new_numerator = static_cast<int>(NUM)* frac.denominator + frac.numerator;
+            Fraction res (new_numerator, frac.denominator);
+            res.simplify();
+            return res;
         }     
 
-        friend Fraction operator-(const Fraction& a, const Fraction& b){
-            int N = a.numerator * b.denominator - b.numerator * a.denominator;
-            int D = b.denominator * a.denominator;
-            return Fraction(N,D);
+        friend Fraction operator-(const Fraction& fraction1, const Fraction& fraction2){
+            int Nnew = fraction1.numerator * fraction2.denominator - fraction2.numerator * fraction1.denominator;
+            int Dnew = fraction2.denominator * fraction1.denominator;
+            Fraction res (Nnew,Dnew);
+            res.simplify();
+            return res;
         }
 
-        friend Fraction operator-( const Fraction& frac,const float& f) {
-            int new_numerator = (int)(f * frac.denominator) - frac.numerator;
-            return Fraction(new_numerator, frac.denominator);
+        friend Fraction operator-( const Fraction& frac,const float& NUM) {
+            int new_numerator = static_cast<int>(NUM )* frac.denominator - frac.numerator;
+            Fraction res (new_numerator, frac.denominator);
+            res.simplify();
+            return res;
+        }
+       
+        friend Fraction operator*(const Fraction& fraction1, const Fraction& fraction2){
+            int Nnew = fraction1.numerator *  fraction2.numerator ;
+            int Dnew = fraction2.denominator * fraction1.denominator;
+            Fraction res (Nnew,Dnew);
+            res.simplify();
+            return res;
+        }
+        friend Fraction operator*(const float & NUM, const Fraction& fraction) {
+            int Nnew=static_cast<int>(NUM) * fraction.numerator;
+            Fraction res (Nnew, fraction.denominator);
+            res.simplify();
+            return res;
+        }
+        friend Fraction operator/(const Fraction& fraction1, const Fraction& fraction2){
+            int Nnew = fraction1.numerator *  fraction2.denominator ;
+            int Dnew = fraction1.denominator * fraction2.numerator;
+            Fraction res (Nnew,Dnew);
+            res.simplify();
+            return res;
+        }
+        // Comparison operators
+        friend bool operator==(const Fraction& fraction1, const Fraction& fraction2){
+            return (fraction1.numerator * fraction2.denominator == fraction2.numerator * fraction1.denominator);
+        }
+        friend bool operator!=(const Fraction& fraction1, const Fraction& fraction2){
+            return !(fraction1==fraction2);
+        }
+        friend bool operator>(const Fraction& fraction1, const Fraction& fraction2){
+            return (fraction1.numerator * fraction2.denominator > fraction2.numerator * fraction1.denominator);
         }
         
-        friend Fraction operator*(const Fraction& a, const Fraction& b){
-            int N = a.numerator *  b.numerator ;
-            int D = b.denominator * a.denominator;
-            return Fraction(N,D);
+        friend bool operator>(const Fraction& fraction, const float value) {
+            float fractionValue = static_cast<float>(fraction.numerator) / static_cast<float>(fraction.denominator);
+            return fractionValue > value;
         }
-        friend Fraction operator*(const float & d, const Fraction& f) {
-            return Fraction(d * f.numerator, f.denominator);
+        friend bool operator>=(const Fraction& fraction1, const Fraction& fraction2){
+            return (fraction1>fraction2 || fraction1==fraction2);
         }
-        friend Fraction operator/(const Fraction& a, const Fraction& b){
-            int N = a.numerator *  b.denominator ;
-            int D = a.denominator * b.numerator;
-            return Fraction(N,D);
+        friend bool operator<(const Fraction& fraction1, const Fraction& fraction2){
+            return (fraction1.numerator * fraction2.denominator < fraction2.numerator * fraction1.denominator);
         }
-
-        // Comparison operators
-        friend bool operator==(const Fraction& a, const Fraction& b){
-            return (a.numerator * b.denominator == b.numerator * a.denominator);
-        }
-        friend bool operator!=(const Fraction& a, const Fraction& b){
-            return !(a==b);
-        }
-        friend bool operator>(const Fraction& a, const Fraction& b){
-            return (a.numerator * b.denominator > b.numerator * a.denominator);
-        }
-        friend bool operator>=(const Fraction& a, const Fraction& b){
-            return (a>b || a==b);
-        }
-        friend bool operator<(const Fraction& a, const Fraction& b){
-            return (a.numerator * b.denominator < b.numerator * a.denominator);
-        }
-        friend bool operator<=(const Fraction& a, const Fraction& b){
-            return (a==b || a<b);
+        friend bool operator<=(const Fraction& fraction1, const Fraction& fraction2){
+            return (fraction1==fraction2 || fraction1<fraction2);
         }
 
         //increment and decrement
         Fraction & operator++();
-       Fraction  operator++(int);
-       Fraction & operator--();
+        Fraction  operator++(int);
+        Fraction & operator--();
         Fraction  operator--(int);
-        //output 
 
-        friend std::ostream& operator<<(std::ostream& os, const Fraction& f){
-            os << f.numerator << "/" << f.denominator;
-            return os;
+        //output 
+        friend std::ostream& operator<<(std::ostream& ostream, const Fraction& fraction){
+            ostream << fraction.numerator << "/" << fraction.denominator;
+            return ostream;
 
         }
 
