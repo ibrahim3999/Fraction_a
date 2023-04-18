@@ -7,24 +7,22 @@ namespace ariel {
 
     class Fraction {
 
-    private:
-        int numerator;
-        int denominator;
-
-
     public:
         // Constructors
         Fraction(int numerator,int denominator);
-        // Copy constructor
-        //Fraction(const Fraction& other) : numerator(other.numerator), denominator(other.denominator) {}
+        // coversion constructor 
+        Fraction(int num):numerator(num),denominator(1){}
         // defult constructor
         Fraction();
-        // Descrotor 
-        ~Fraction(){}
+        // Copy constructor
+       // Fraction(const Fraction& other);
+
+        
         // Helper method to simplify the fraction
         void simplify();
 
-           
+        //Fraction& operator=(const Fraction &other);
+
         //Arithmetic
 
         friend Fraction operator+(const Fraction & fraction1, const Fraction &fraction2){
@@ -135,6 +133,11 @@ namespace ariel {
         int getDenominator() const { return denominator; }
         // toString method
         std::string to_string()const;
+
+        private:
+        int numerator;
+        int denominator;
+
     
     };
 }

@@ -12,6 +12,18 @@ TEST_CASE("Fraction tests") {
         Fraction f2(3, 4);
         CHECK(f2.getNumerator() == 3);
         CHECK(f2.getDenominator() == 4);
+
+        Fraction f3(3);
+        CHECK(f3.getNumerator() == 3);
+        CHECK(f3.getDenominator() == 1);
+
+        Fraction f4=f2;
+        CHECK(f4.getNumerator() == 3);
+        CHECK(f4.getDenominator() == 4);
+
+        Fraction f5(f2);
+        CHECK(f4.getNumerator() == 3);
+        CHECK(f4.getDenominator() == 4);
     }
     SUBCASE("Addition") {
         Fraction f1(1, 2);
